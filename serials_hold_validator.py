@@ -10,6 +10,7 @@ import sys
 START_TAG = '<Ng>'
 END_TAG = '</Ng>'
 
+
 def serials_hold_validator(hlv):
     plus_mark = 0
     rtncd = 0
