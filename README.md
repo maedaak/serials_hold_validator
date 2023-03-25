@@ -46,17 +46,21 @@ serials_hold_validator.pm　は国立情報学研究所のNACSIS-CATに雑誌所
 python sample.py 入力ファイル
 ```
 ### 関数serials_hold_validator
-serials_hold_validator.pyを同じディレクトリに（フォルダ）配置します。
-ユーザプログラムで、次のように関数serials_hold_validatorを使えるようにします。
+雑誌所蔵の形式チェック機能を自作のスクリプトに呼び出して使うことができます。
+具体例として、sample.py もご参考にしてください。
+
+serials_hold_validator.pyを作るPythonスクリプトと同じディレクトリに（フォルダ）配置します。
+ご自身のPythonスクリプトで、import文で関数serials_hold_validatorを使えるようにします。
+以下の例ではshv.serials_hold_validator()でserials_hold_validator関数を呼び出せるようにしています。
+serials_hold_validator関数の引数には解析対象の１雑誌所蔵データを入れます。
 ```
 import serials_hold_validator as shv
-```
-次のように関数を呼び出してください。引数には解析対象の１雑誌所蔵データを入れます。
-```
 code, checked = shv.serials_hold_validator('3-10,12()-14(),15-16-17+')
+print(code, checked)
 ```
-codeはエラーの有無を返します。0であればエラーなし、1であればエラーありです。
-checedは入力の雑誌所蔵を<Ng>タグでエラー箇所にタグ付けし返します。
+関数の戻り値について説明します。
+- codeはエラーの有無を返します。0であればエラーなし、1であればエラーありです。
+- checedは入力の雑誌所蔵を<Ng>タグでエラー箇所にタグ付けし返します。
 
 ## 免責
 いち大学図書館関係者として作成したもので、国立情報学研究所の事業との関係はありません。
