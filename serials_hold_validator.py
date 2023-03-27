@@ -23,7 +23,9 @@ def serials_hold_validator(hlv):
             hlv = hlv[:-1]
             plus_mark = 1
         for split_vol in hlv.split(";"):
-            rtncd, checked_split_vol = check_vol(split_vol)
+            rtncd_vol, checked_split_vol = check_vol(split_vol)
+            if rtncd_vol == 1:
+                rtncd = 1
             checkd_split_vols.append(checked_split_vol)
         checked_vol_all = ';'.join(checkd_split_vols)
         if plus_mark:
@@ -37,22 +39,27 @@ def check_vol(vol):
     token = ""
     checked_vol = []
     rtncd = 0
+    part_of_vols = vol.split(",")
+    part_of_vols_size = len(part_of_vols) - 1
 
-    for part_of_vol in vol.split(","):
+    for i, part_of_vol in enumerate(part_of_vols):
         number = ""
         # 4(4,3,5) のような形式に対応させる
         # 4(4
-        if part_of_vol .startswith('(') and part_of_vol .endswith(')'):
-            token = token + part_of_vol + ','
-            switch = 1
-            continue
+        if (re.match(r"^\d+\(", part_of_vol)) and not (part_of_vol.endswith(')')):
+            if i != part_of_vols_size:
+                token = token + part_of_vol + ','
+                switch = 1
+                continue
         if switch == 1:
             # 5)
-            if (not part_of_vol.startswith('(')) and part_of_vol.endswith(')'):
+            if (not re.match(r"^\d+\(", part_of_vol)) and part_of_vol.endswith(')'):
                 part_of_vol = token + part_of_vol
                 switch = 0
                 token = ""
             # 3
+            elif i == part_of_vols_size:
+                part_of_vol = token
             else:
                 token = token + part_of_vol + ','
                 continue
@@ -88,8 +95,8 @@ def check_vol(vol):
 
 
 if __name__ == '__main__':
-    infile = open(sys.argv[1], "r", encoding="utf-8")
-    # infile = open("testinput.txt", "r", encoding="utf-8")
+    # infile = open(sys.argv[1], "r", encoding="utf-8")
+    infile = open("testinput.txt", "r", encoding="utf-8")
     for line in infile:
         line = line.rstrip("\n")
         code, checked = serials_hold_validator(line)
