@@ -67,6 +67,8 @@ def check_vol(vol):
             checked_vol.append(part_of_vol)
         elif re.match(r"^\d+\-\d+$", part_of_vol):
             checked_vol.append(part_of_vol)
+        elif re.match(r"^\d+\(\)\-\d+\(\)$", part_of_vol):
+            checked_vol.append(part_of_vol)
         elif re.match(r"^\d+\(.*\)$", part_of_vol):
             checked_number = []
             number = part_of_vol
