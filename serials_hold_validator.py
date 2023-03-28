@@ -23,8 +23,8 @@ def serials_hold_validator(hlv):
             hlv = hlv[:-1]
             plus_mark = 1
         for split_vol in hlv.split(";"):
-            rtncd_vol, checked_split_vol = check_vol(split_vol)
-            if rtncd_vol == 1:
+            rtncd_split_vol, checked_split_vol = check_vol(split_vol)
+            if rtncd_split_vol == 1:
                 rtncd = 1
             checkd_split_vols.append(checked_split_vol)
         checked_vol_all = ';'.join(checkd_split_vols)
@@ -59,7 +59,7 @@ def check_vol(vol):
                 token = ""
             # 3
             elif i == part_of_vols_size:
-                part_of_vol = token
+                part_of_vol = token + part_of_vol
             else:
                 token = token + part_of_vol + ','
                 continue
